@@ -1,0 +1,83 @@
+
+module DATA_BANK_TB;
+
+	// Inputs
+	logic clk;
+	logic [7:0] W_data;
+	logic [2:0] W_addr;
+	logic 		W_en;
+	logic [2:0] R_addr;
+	logic [2:0] R2_addr;
+
+	// Outputs
+	logic [7:0] R_data;
+	logic [7:0] R2_data;
+
+	// Instantiate the Unit Under Test (UUT)
+	regfileII uut (
+		.clk(clk), 
+		.W_data(W_data), 
+		.W_addr(W_addr), 
+		.W_en(W_en), 
+		.R_addr(R_addr), 
+		.R_en(R_en), 
+		.R_data(R_data)
+	);
+
+	initial begin
+		// Initialize Inputs
+		clk = 0;
+		W_data = 0;
+		W_addr = 0;
+		W_en = 0;
+		R_addr = 0;
+		R_en = 0;
+
+		// Wait 100 ns for global reset to finish
+		#20;
+
+		W_data = 8'hFF;
+		W_addr = 0;
+		W_en = 1;
+		R_addr = 0;
+		R_en = 0;
+
+		#10;
+		W_data = 8'hFE;
+		W_addr = 1;
+		
+		#10;
+		W_data = 8'hAA;
+		W_addr = 2;
+		
+		#5;
+		R_addr = 1;
+		R_en = 1;
+		
+		#5;
+		W_data = 8'h5A;
+		W_addr = 15;
+		
+		#10;
+		R_addr = 15;
+		R_en = 0;
+		
+		#10;
+		R_addr = 15;
+		R_en = 1;
+		
+		#5;
+		W_en = 0;
+		
+	
+		
+		// Add stimulus here
+
+	end
+      
+	initial begin
+	
+		forever #5 clk = ~clk;
+	end
+
+endmodule
