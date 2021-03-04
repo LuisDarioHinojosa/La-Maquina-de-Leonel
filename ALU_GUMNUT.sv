@@ -7,7 +7,6 @@ module ALU_GUMNUT(
     output logic zero_o,
     output logic carry_o,
     output logic [7:0] res_o
-
 );
 
 endmodule
