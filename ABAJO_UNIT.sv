@@ -7,11 +7,12 @@ module ABAJO_UNIT(
     input logic port_dat_i, // FOR MUX
     input logic [1:0] RegMux_c, // SELECTOR FOR FIRST MUX
     input logic [17:0] inst_dat_i, // this is the 18 bit data bus
-    input logic inst_ack_i, // this is come useless input
+    input logic inst_ack_i, // this is the register enable
     input logic op2_c, // REGISTERS-ALU INTERMEDIANTE MUX SELECTOR
 
 
-    output logic [2:0] op_e, // operation code
+    //output logic [2:0] op_e, // operation code
+    output logic [6:0] op_e, // segun leonel esto es de 7 bits
     output logic [2:0] func_e, // function code
     output logic [11:0] addr_e, // wire to IS address outout
     output logic [7:0] disp_e, // wire to IS reset disp output
@@ -25,7 +26,8 @@ module ABAJO_UNIT(
 
 
 // Wires section
-logic [2:0] opWire, funcWire;
+logic [2:0]  funcWire;
+logic [6:0] opWire;
 logic [11:0] addressWire;
 logic [7:0] dispWire,offstWire;
 
@@ -41,7 +43,7 @@ logic [7:0] rs_alu, rs2_alu, rd_alu, m, immed_alu;
 logic [2:0] count_int;
 logic [7:0] res_int, m2, D_i;
 
-IS is(.inst_i(inst_dat_i),.ack_i(inst_ack_i) ,.op_o(opWire),.func_o(funcWire),.addr_o(addressWire),.disp_o(dispWire),.offset_o(offstWire),.rs_o(rs_int),.rs2_o(rs2_int),.rd_o(rd_int),.immed_o(immed_alu),.count_o(count_int));
+IS is(.clk(clk_i),.enable(inst_ack_i),.inst_i(inst_dat_i),.ack_i(inst_ack_i) ,.op_o(opWire),.func_o(funcWire),.addr_o(addressWire),.disp_o(dispWire),.offset_o(offstWire),.rs_o(rs_int),.rs2_o(rs2_int),.rd_o(rd_int),.immed_o(immed_alu),.count_o(count_int));
 
 
 DATA_BANK registers(.clk(clk_i),.rst(rst_i),.cen(ClkEn_e),.we(RegWrt_c),.rs_i(rs_int),.rs2_i(rs2_int),.rd_i(rd_int),.rs_o(rs_alu),.rs2_o(rs2_alu),.dat_i(m2));

@@ -18,35 +18,17 @@ module IS(
 
 );
 
+
+
 // Register for storing data backup
-logic [17:0]data_backup;
+logic [17:0]data_backup:
 
 always_ff @( posedge clk ) 
     begin
-        if(enable) data_backup <= inst_i;
+        if(en) data_backup <= inst_i;
         else data_backup <= 0;
         
     end
-
-
-
-
-
-
-
-
-always_comb op_o =     data_backup[17:11];
-always_comb func_o =   data_backup[17] ? data_backup[2:0] : data_backup[16:14];
-always_comb addr_o =   data_backup[11:0];
-always_comb disp_o =   data_backup[7:0];
-always_comb offset_o = data_backup [7:0];
-always_comb rs_o =     data_backup[10:8];
-always_comb rs2_o =    data_backup[7:5];
-always_comb rd_o =     data_backup [13:11];
-always_comb immed_o =  data_backup[7:0];
-always_comb count_o =  data_backup [7:5];
-
-/*
 
 always_comb op_o =     inst_i[17:11];
 always_comb func_o =   inst_i[17] ? inst_i[2:0] : inst_i[16:14];
@@ -58,9 +40,6 @@ always_comb rs2_o =    inst_i[7:5];
 always_comb rd_o =     inst_i [13:11];
 always_comb immed_o =  inst_i[7:0];
 always_comb count_o =  inst_i [7:5];
-
-
-*/
 
 
 
