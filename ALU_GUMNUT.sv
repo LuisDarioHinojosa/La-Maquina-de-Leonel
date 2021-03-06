@@ -6,15 +6,51 @@ module ALU_GUMNUT(
     input logic [3:0]s_i, // action selector
     output logic zero_o,
     output logic carry_o,
-    output logic [7:0] res_o
+    output logic [7:0] res_o,
+    output logic OVF,
+    output logic NF
 );
 
 
 
 
 
+wire w = s_i[3];
+wire x = s_i[2];
+wire y = s_i[1];
+wire z = s_i[0];
 
 
+
+wire [1:0] S = {y,z};
+
+
+
+
+wire [7:0]SA;
+wire [7:0]SL;
+wire [7:0]SS;
+wire co_a;
+wire co_s;
+wire of;
+
+
+ALUA ari(.A(rs_i),.B(op2_i),.cin(carry_i),.S(S),.IS(SA),.Cout(co_a),.OV(of));
+ALUL lol(.A(rs_i),.B(op2_i),.S(S),.OUT(SL));
+ALUS shift(.A(rs_i),.Cnt(count_i),.sel(S),.Co(co_s),.S(SS));
+
+
+assign res_o = w ? SS : x ? SL : SA;
+
+
+
+assign carry_o = (w ?  co_s : co_a) & ~ x;
+assign OVF = of & ~(x|w);
+assign zero_o = ~|res_o;
+assign NF = res_o[7];
 
 
 endmodule
+
+
+

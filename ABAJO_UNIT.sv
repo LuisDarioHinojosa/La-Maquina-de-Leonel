@@ -19,8 +19,8 @@ module ABAJO_UNIT(
     output logic [7:0] offset_e, // wire to IS offset output
     output logic rs_o, // rs_i de DATEMEM
     output logic carry_e, // the borrow logic will be handled insside the ALU
-    output logic zero_e,
-    output logic rd_0 // OUTPUT PARA AFUERA 
+    output logic zero_e
+    //output logic rd_0 // OUTPUT PARA AFUERA 
 );
 
 
