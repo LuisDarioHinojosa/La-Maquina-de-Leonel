@@ -15,24 +15,17 @@ module ALU_GUMNUT(
 
 
 
-wire w = s_i[3];
-wire x = s_i[2];
-wire y = s_i[1];
-wire z = s_i[0];
-
-
+wire w,x,y,z;
 
 wire [1:0] S = {y,z};
 
-
+assign {w,x,y,z} = s_i;
 
 
 wire [7:0]SA;
 wire [7:0]SL;
 wire [7:0]SS;
-wire co_a;
-wire co_s;
-wire of;
+wire co_a,co_s,of;
 
 
 ALUA ari(.A(rs_i),.B(op2_i),.cin(carry_i),.S(S),.IS(SA),.Cout(co_a),.OV(of));

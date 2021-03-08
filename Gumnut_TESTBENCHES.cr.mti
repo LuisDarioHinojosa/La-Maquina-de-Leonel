@@ -1,0 +1,92 @@
+C:/intelFPGA_lite/18.1/Leonel/Gummut/FlipFlop.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/FlipFlop.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module FlipFlop
+
+Top level modules:
+	FlipFlop
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/ALUS.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/ALUS.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module ALUS
+
+Top level modules:
+	ALUS
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/Adder.v {1 {vlog -work work -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/Adder.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module Adder
+
+Top level modules:
+	Adder
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/ALUA.v {1 {vlog -work work -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/ALUA.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module ALUA
+
+Top level modules:
+	ALUA
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/ALU_GUMNUT.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/ALU_GUMNUT.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module ALU_GUMNUT
+
+Top level modules:
+	ALU_GUMNUT
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/data_bank_tb.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/DATA_BANK_TB.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module DATA_BANK_TB
+
+Top level modules:
+	DATA_BANK_TB
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/punitfsm_tb.sv {1 {vlog -work work -sv -stats=none {C:\intelFPGA_lite\18.1\Leonel\Gummut\punitfsm_tb.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module punitfsm_tb
+
+Top level modules:
+	punitfsm_tb
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/IS.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/IS.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module IS
+
+Top level modules:
+	IS
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/ABAJO_UNIT.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/ABAJO_UNIT.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module ABAJO_UNIT
+
+Top level modules:
+	ABAJO_UNIT
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/DATA_BANK.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/DATA_BANK.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module DATA_BANK
+
+Top level modules:
+	DATA_BANK
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/ALUNEXT.v {1 {vlog -work work -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/ALUNEXT.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module ALUNEXT
+
+Top level modules:
+	ALUNEXT
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/MUX_41.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/MUX_41.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module MUX_41
+
+Top level modules:
+	MUX_41
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/ALUL.v {1 {vlog -work work -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/ALUL.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module ALUL
+
+Top level modules:
+	ALUL
+
+} {} {}}

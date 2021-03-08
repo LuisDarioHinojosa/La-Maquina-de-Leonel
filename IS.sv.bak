@@ -7,7 +7,7 @@ module IS(
     input logic         ack_i,
     output logic [6:0]  op_o,
     output logic [2:0]  func_o,
-    output logic [11:0] addr_o,
+    output logic [10:0] addr_o,
     output logic [7:0]  disp_o,
     output logic [7:0]  offset_o,
     output logic [2:0]  rs_o,
@@ -32,7 +32,7 @@ always_ff @( posedge clk )
 
 always_comb op_o =     inst_i[17:11];
 always_comb func_o =   inst_i[17] ? inst_i[2:0] : inst_i[16:14];
-always_comb addr_o =   inst_i[11:0];
+always_comb addr_o =   inst_i[10:0];
 always_comb disp_o =   inst_i[7:0];
 always_comb offset_o = inst_i [7:0];
 always_comb rs_o =     inst_i[10:8];

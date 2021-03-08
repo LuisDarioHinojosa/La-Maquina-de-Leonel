@@ -4,8 +4,7 @@ module IS(
     input logic clk,
     input logic enable,
     input logic  [17:0] inst_i,
-    input logic         ack_i,
-    output logic [6:0]  op_o,
+    output logic [2:0]  op_o,
     output logic [2:0]  func_o,
     output logic [11:0] addr_o,
     output logic [7:0]  disp_o,
@@ -19,13 +18,11 @@ module IS(
 );
 
 // Register for storing data backup
-logic [17:0]data_backup;
+logic [17:0]data_backup = 0;
 
 always_ff @( posedge clk ) 
     begin
         if(enable) data_backup <= inst_i;
-        else data_backup <= 0;
-        
     end
 
 
@@ -35,7 +32,7 @@ always_ff @( posedge clk )
 
 
 
-always_comb op_o =     data_backup[17:11];
+always_comb op_o =     data_backup[17:15];
 always_comb func_o =   data_backup[17] ? data_backup[2:0] : data_backup[16:14];
 always_comb addr_o =   data_backup[11:0];
 always_comb disp_o =   data_backup[7:0];
