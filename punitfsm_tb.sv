@@ -82,7 +82,7 @@ module punitfsm_tb();
 	endtask
 */
 
-	task newALUInstruction(string op, logic [2:0] rd, logic [2:0] rs, logic [2:0] rs2, logic [7:0] immed);
+	task newALUInstruction(string op, logic [2:0] rd, logic [2:0] rs, logic [2:0] rs2, logic [7:0] immed, logic [2:0] count);
 		//printRegistersBefore(op);
 		// te concatena los bits segun lo que esta en el excel. 
 		case (op)
@@ -94,6 +94,25 @@ module punitfsm_tb();
 			"subi"   : inst_dat_i <= {4'b0010, rd, rs,    		  immed};
 			"subc"	 : inst_dat_i <= {4'b1110, rd, rs, rs2, 2'bxx, 3'b011};
 			"subci"  : inst_dat_i <= {4'b0011, rd, rs,    		  immed};
+
+			// MIAS
+
+			"and" 	 : inst_dat_i <= {4'b1110, rd, rs, rs2, 2'bxx, 3'b100};
+			"andi"   : inst_dat_i <= {4'b0011, rd, rs,    		  immed};
+			"or"	 : inst_dat_i <= {4'b1110, rd, rs, rs2, 2'bxx, 3'b101};
+			"ori"    : inst_dat_i <= {4'b0101, rd, rs,    		  immed};
+			"xor" 	 : inst_dat_i <= {4'b1110, rd, rs, rs2, 2'bxx, 3'b110};
+			"xori"   : inst_dat_i <= {4'b0110, rd, rs,    		  immed};
+			"andnot" : inst_dat_i <= {4'b1110, rd, rs, rs2, 2'bxx, 3'b111};
+			"andnoti": inst_dat_i <= {4'b0111, rd, rs,    		  immed};
+
+
+
+			"shift1" : inst_dat_i <= {4'b110x, rd, rs, count, 3'bxxx, 2'b00 };
+			"shift2" : inst_dat_i <= {4'b110x, rd, rs, count, 3'bxxx, 2'b01 };
+			"rot_1"	 : inst_dat_i <= {4'b110x, rd, rs, count, 3'bxxx, 2'b10 };
+			"rot_2"  : inst_dat_i <= {4'b110x, rd, rs, count, 3'bxxx, 2'b11	};
+
 		endcase
 	
 		@(posedge clk_i); // FETCH
@@ -115,6 +134,23 @@ module punitfsm_tb();
 			"subi"   : ALUOp_c_i <= 4'b0010;
 			"subc"	 : ALUOp_c_i <= 4'b0011;
 			"subci"  : ALUOp_c_i <= 4'b0011;
+
+			// MIAS
+
+			"and" 	 : ALUOp_c_i <= 4'b0100;
+			"andi"   : ALUOp_c_i <= 4'b0100;
+			"or"	 : ALUOp_c_i <= 4'b0101;
+			"ori"    : ALUOp_c_i <= 4'b0101;
+			"xor" 	 : ALUOp_c_i <= 4'b0110;
+			"xori"   : ALUOp_c_i <= 4'b0110;
+			"andnot" : ALUOp_c_i <= 4'b0111;
+			"andnoti": ALUOp_c_i <= 4'b0111;
+
+			"shift1" : ALUOp_c_i <= 4'b1000;
+			"shift2" : ALUOp_c_i <= 4'b1001;
+			"rot_1"	 : ALUOp_c_i <= 4'b1010;
+			"rot_2"  : ALUOp_c_i <= 4'b1011;
+
 		endcase
 		state	   <= DECODE;
 		@(posedge clk_i); //EXECUTE
@@ -140,22 +176,33 @@ module punitfsm_tb();
 		
 
 
-		newALUInstruction("add" , 0, 3, 4, 'x);
+		newALUInstruction("add" , 0, 3, 4, 'x,'x);
+		newALUInstruction("addi", 3, 0,'x, 255,'x);
+		newALUInstruction("sub" , 7, 3, 3, 'x,'x);
+		newALUInstruction("subi", 0, 5, 'x, 255,'x);	
+		newALUInstruction("sub" , 0, 0, 0, 'x,'x);   // sets Reg 0 to Zero   R0 - R0 == 0 
+		newALUInstruction("sub" , 1, 1, 1, 'x,'x);   // sets Reg 0 to Zero   R1 - R1 == 0
+		newALUInstruction("sub" , 2, 2, 2, 'x,'x);   // sets Reg 0 to Zero	  R2 - R2 == 0
+		newALUInstruction("addi", 1, 0, 'x, 100,'x);   // sets Reg 1 to 100d
+		newALUInstruction("addi", 2, 0, 'x, 200,'x);   // sets Reg 2 to 200d 
+		newALUInstruction("add" , 3, 1, 2, 'x,'x);   // sets Reg 3 to be addition Reg1+Reg2 (will generate Carry)
+		newALUInstruction("addci" , 4, 0, 'x, 255,'x);   // should give 0 as result (will generate Carry)
+		newALUInstruction("subc" , 5, 0, 4, 'x,'x);   // should give -1 as result (Reg0 - Reg4 - Cin)  0-0-1
+		newALUInstruction("add"  , 0, 0, 0, 'x,'x);   // 0+0  should clear the carry_o
+		newALUInstruction("subc" , 5, 0, 4, 'x,'x);   // should give 0 as result (Reg0 - Reg4 - Cin)  0-0-0
 
-		newALUInstruction("addi", 3, 0,'x, 255);
-		newALUInstruction("sub" , 7, 3, 3, 'x);
-		newALUInstruction("subi", 0, 5, 'x, 255);	
-		newALUInstruction("sub" , 0, 0, 0, 'x);   // sets Reg 0 to Zero   R0 - R0 == 0 
-		newALUInstruction("sub" , 1, 1, 1, 'x);   // sets Reg 0 to Zero   R1 - R1 == 0
-		newALUInstruction("sub" , 2, 2, 2, 'x);   // sets Reg 0 to Zero	  R2 - R2 == 0
-		newALUInstruction("addi", 1, 0, 'x, 100);   // sets Reg 1 to 100d
-		newALUInstruction("addi", 2, 0, 'x, 200);   // sets Reg 2 to 200d 
-		newALUInstruction("add" , 3, 1, 2, 'x);   // sets Reg 3 to be addition Reg1+Reg2 (will generate Carry)
-		newALUInstruction("addci" , 4, 0, 'x, 255);   // should give 0 as result (will generate Carry)
-		newALUInstruction("subc" , 5, 0, 4, 'x);   // should give -1 as result (Reg0 - Reg4 - Cin)  0-0-1
-		newALUInstruction("add"  , 0, 0, 0, 'x);   // 0+0  should clear the carry_o
-		newALUInstruction("subc" , 5, 0, 4, 'x);   // should give 0 as result (Reg0 - Reg4 - Cin)  0-0-0
-	
+
+		// mis vectores de prueb
+		// 	task newALUInstruction(string op, logic [2:0] rd, logic [2:0] rs, logic [2:0] rs2, logic [7:0] immed, logic [2:0] count);
+		// operacion, rd,rs,rs2,inmmed,count
+		newALUInstruction("add" , 1, 4, 5, 'x,'x);
+		newALUInstruction("add" , 0, 3, 6, 'x,'x);
+		newALUInstruction("and" , 3, 2, 4, 'x,'x);
+		newALUInstruction("and" , 3, 4, 6, 'x,'x);
+		newALUInstruction("andi" , 0, 5, 'x, 28,'x);
+		newALUInstruction("andi" , 0, 4, 'x, 32,'x);
+
+
 		@(posedge clk_i);
 		ClkEn_i <= 0;
 		
