@@ -52,7 +52,7 @@ DATA_BANK registers(.clk(clk_i),.rst(rst_i),.cen(ClkEn_e),.we(RegWrt_c),.rs_i(rs
 logic ff_cout; 
 
 
-// Wire REGISTERS-ALU MUX 2 TO 1
+// Wire REGISTERS-ALU MUX 2 TO 1 cambiar oara vidr 
 always_comb
     begin
         case(op2_c)

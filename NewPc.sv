@@ -15,15 +15,16 @@ module NewPc(
 
 // bit extender 8-12
 logic [11:0] offsetExpand,adderOutput;
-logic [11:0] adderMux,jumpStackMux;
+logic [11:0] adderMux,jumpStackMux, mux3wire;
 
 
 assign offsetExpand = {4'b0000,offset_i};
 
 // usefull wires
-logic taken, sel1, sel2;
+logic taken, sel1, sel2,sel3;
 
 assign sel2 = PCoper_i[1]; // jump/stack selector
+assign sel3 = PCoper_i[0]; // selector interruption 1
 
 // combinational logic for the taken
 always_comb 
@@ -61,6 +62,17 @@ always_comb
 
 assign adderOutput = adderMux + PC_i;
 
+// mux interuption one
+
+// decides wether to select the jump or the stack
+always_comb 
+    begin
+        case(sel3)
+            1'd1 :  mux3wire = 12'b1;
+            1'b0 :  mux3wire = int_i;
+        endcase   
+    end
+
  // last mux
 always_comb 
     begin
@@ -68,7 +80,7 @@ always_comb
             2'b00 : PC_o = adderOutput;
             2'b01 : PC_o = adderOutput;
             2'b10 : PC_o = jumpStackMux;
-            2'b11 : PC_o = int_i;
+            2'b11 : PC_o = mux3wire;
         endcase   
     end
 
