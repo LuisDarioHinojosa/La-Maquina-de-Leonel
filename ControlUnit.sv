@@ -42,6 +42,7 @@ always_comb
     begin
         case(STATE)
             FETCH_STATE: NEXT <= (inst_ack_i) ? DECODE_STATE : FETCH_STATE;
+            
         endcase
     end
 

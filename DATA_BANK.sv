@@ -20,7 +20,12 @@ logic [7:0] mem [7:0];
 
 logic clkg;
 
+logic [7:0] reg1, reg2;
+
 always_comb clkg = clk & cen;
+
+
+
 
 always_ff @ (posedge clkg or posedge rst)
 	begin
@@ -35,6 +40,14 @@ always_comb begin
 	rs_o = mem[rs_i];
 	rs2_o = mem[rs2_i];
 end
+
+
+always_ff @( posedge clkg ) 
+	begin 
+		reg1 <= rs_o;
+		reg2 <= rs2_o;
+	end
+
 
 
 
