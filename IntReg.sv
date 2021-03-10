@@ -12,6 +12,7 @@ module IntReg(
 );
 
 
+// logic gate
 
 logic gateClock;
 assign gateClock = clk & cen;	

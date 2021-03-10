@@ -23,7 +23,7 @@ module ABAJO_UNIT(
     //output logic rd_0 // OUTPUT PARA AFUERA 
 );
 
-
+// need to rewire stuff
 
 // Wires section
 logic [2:0]  funcWire;

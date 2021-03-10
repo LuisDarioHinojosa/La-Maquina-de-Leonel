@@ -73,7 +73,7 @@ always_comb
         endcase   
     end
 
- // last mux
+ // last mux for final uput
 always_comb 
     begin
         case(PCoper_i[3:2])

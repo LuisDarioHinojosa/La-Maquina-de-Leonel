@@ -31,7 +31,7 @@ always_ff @( posedge clk )
 
 
 
-
+// this are te inmediate outputs
 always_comb op_o =     data_backup[17:15];
 always_comb func_o =   data_backup[17] ? data_backup[2:0] : data_backup[16:14];
 always_comb addr_o =   data_backup[11:0];
