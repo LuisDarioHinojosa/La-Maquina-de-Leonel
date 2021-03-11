@@ -1,3 +1,5 @@
+// Now this thing must store the values of both flags
+
 module FlipFlop(
     input logic clk,
     input logic rst,
@@ -19,3 +21,4 @@ always_ff @ (posedge clkg or posedge rst)
 
 
 endmodule
+
