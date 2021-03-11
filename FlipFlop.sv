@@ -4,6 +4,7 @@ module FlipFlop(
     input logic clk,
     input logic rst,
     input logic clock_en,
+
     input logic cin,
     output logic cout
 );

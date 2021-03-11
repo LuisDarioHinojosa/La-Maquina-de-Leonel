@@ -11,8 +11,8 @@ module ABAJO_UNIT(
     input logic op2_c, // REGISTERS-ALU INTERMEDIANTE MUX SELECTOR
     input logic [3:0]ALUOp_c,
 
-    output logic [2:0] op_e, // operation code
-    //output logic [6:0] op_e, // segun leonel esto es de 7 bits
+    //output logic [2:0] op_e, // operation code
+    output logic [6:0] op_e, // segun leonel esto es de 7 bits
     output logic [2:0] func_e, // function code
     output logic [11:0] addr_e, // wire to IS address outout
     output logic [7:0] disp_e, // wire to IS reset disp output
@@ -28,7 +28,7 @@ module ABAJO_UNIT(
 // Wires section
 logic [2:0]  funcWire;
 // logic [2:0] opWire;
-logic [2:0] opWire;
+logic [6:0] opWire;
 logic [11:0] addressWire;
 logic [7:0] dispWire,offstWire;
 
@@ -102,7 +102,7 @@ FlipFlop ff(.clk(clk_i),.rst(rst_i),.clock_en(ClkEn_e),.cin(cf),.cout(ff_cout));
 
 // Straightforwars outputs 
 
-always_comb op_e = opWire;
+always_comb op_e = opWire; // opcode
 
 always_comb func_e = funcWire;
 
