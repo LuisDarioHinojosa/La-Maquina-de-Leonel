@@ -12,4 +12,3 @@ Importante: preguntar a Leonel que trip con todas esas señales por que pues no 
 La logica detras de leonel y su codificacion
 
 ![es esto](./logica.png)
-
