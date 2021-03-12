@@ -43,6 +43,33 @@ always_comb rd_o =     data_backup [13:11];
 always_comb immed_o =  data_backup[7:0];
 always_comb count_o =  data_backup [7:5];
 
+// combinational assigments for function code
+/*
+always_comb 
+    begin
+        if(data_backup[17:14] == 4'b1110) func_o =  data_backup[2:0]; // ALU
+        else if(!data_backup[17]) func_o = data_backup[16:14]; // ALU-IMMED
+        else if(data_backup[17:15] == 3'b110) func_o = {1'bx,data_backup[1:0]} ; // SHIFT
+        else if (data_backup[17:16] == 2'b10) func_o = {data_backup[15:14],1'bx}; // memory instructions 
+
+        else if (data_backup[17:12] ==6'b111110) func_o = {data_backup[10:11],1'bx}; // branch 
+        else if (data_backup[17:13] ==  5'b11110) func_o = {data_backup[12],2'bx}; // jump
+        //else if (data_backup[17:11] == 7'b1111110) 
+        else func_o = data_backup[10:8]; // miscelaneo
+    end
+
+	 
+*/
+/*
+always_comb branch = (op_i[6:1] == 7'b111110);
+always_comb jump = (op_i[6:2] == 5'b11110);
+always_comb misc = (op_i == 7'b1111110);
+always_comb mem = (op_i[6:5] == 2'b10);
+always_comb shift = (op_i[6:4] == 3'b110);
+always_comb alu_immed = (op_i[6] == 1'b0);
+always_comb alu_reg = (op_i[6:3] == 6'b1110);
+
+*/
 /*
 
 always_comb op_o =     inst_i[17:11];

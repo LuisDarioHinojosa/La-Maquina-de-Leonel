@@ -1,0 +1,71 @@
+module ControlUnit(
+    input logic clk, // for clock signal 
+    input logic rst, // upon reset transfer to fetch state
+    input logic int_req, //interruption requirement (int quiero pensar)
+    input logic inst_ack_i, // fetch to transfer state
+    input logic [6:0] op_i, // opcode
+    input logic [2:0] func_i, // function
+    input logic data_ack_i,
+
+    output logic op2_c, // sregister bank-alu mux selector
+    output logic ALUOp_o, // ALU SELECTOR
+    output logic ALUFR_o, // Para el write enable del nuevo registro
+    output logic ALUEN_o, // Alu enable 
+    output logic RegWrt_c, // reg 
+    output logic [1:0] RegMux_c,
+    output logic PCEN_o,
+    output logic [4:0] PCoper_o,
+    output logic ret_o,
+    output logic jbs_o,
+    output logic DPMUX_o,
+    output logic reti_o,
+    output logic int_o,
+    output logic stb_o,
+    output logic cyc_o,
+    output logic port_we_o,
+    output logic data_we_o,
+    output logic data_stb_o,
+    output logic data_cyc_o,
+
+);
+
+
+// states encoding
+parameter FETCH_STATE     = 3'b000;
+parameter DECODE_STATE    = 3'b001;
+parameter EXECUTE_STATE   = 3'b010;
+parameter INT_STATE       = 3'b011;
+parameter MEM_STATE       = 3'b100;
+parameter WRITEBACK_STATE = 3'b101;
+
+
+// OPCODE contitions
+logic branch,jump,misc,mem alu_immed,alu_reg,shift;
+
+always_comb branch = (op_i[6:1] == 5'b111110);
+always_comb jump = (op_i[6:2] == 5'b11110);
+always_comb misc = (op_i == 7'b1111110);
+always_comb mem = (op_i[6:5] == 2'b10);
+always_comb shift = (op_i[6:4] == 3'b110);
+always_comb alu_immed = (op_i[6] == 1'b0);
+always_comb alu_reg = (op_i[6:3] == 4'b1110);
+
+// Particular operations 
+logic waitt, stby,ldm,inp,out,stm;
+
+
+always_comb waitt = (op_i[6:2] == 5'b11110);
+always_comb stby = (op_i == 7'b1111110);
+always_comb ldm = (op_i[6:5] == 2'b10);
+always_comb inp = (op_i[6:4] == 3'b110);
+always_comb out = (op_i[6] == 1'b0);
+always_comb stm = (op_i[6:3] == 4'b1110);
+
+
+
+
+
+
+
+
+endmodule

@@ -9,7 +9,7 @@ module ABAJO_UNIT(
     input logic [17:0] inst_dat_i, // this is the 18 bit data bus
     input logic inst_ack_i, // this is the register enable
     input logic op2_c, // REGISTERS-ALU INTERMEDIANTE MUX SELECTOR
-    input logic [3:0]ALUOp_c,
+    input logic [3:0] ALUOp_c,
 
     //output logic [2:0] op_e, // operation code
     output logic [6:0] op_e, // segun leonel esto es de 7 bits
@@ -17,7 +17,7 @@ module ABAJO_UNIT(
     output logic [11:0] addr_e, // wire to IS address outout
     output logic [7:0] disp_e, // wire to IS reset disp output
     output logic [7:0] offset_e, // wire to IS offset output
-    output logic [7:0]rs_o, // rs_i de DATEMEM
+    output logic [7:0] rs_o, // rs_i de DATEMEM
     output logic carry_e, // the borrow logic will be handled insside the ALU
     output logic zero_e
     //output logic rd_0 // OUTPUT PARA AFUERA 
@@ -64,7 +64,7 @@ always_comb
 
 
 // flag wires
-logic zf, cf;
+logic zf, cf,cf_o,zf_o;
 
 ALU_GUMNUT alu (.rs_i(rs_alu),.op2_i(m),.count_i(count_int),.zero_o(zf),.s_i(ALUOp_c),.carry_o(cf),.res_o(res_int),.carry_i(ff_cout));
 
@@ -97,7 +97,9 @@ always_comb
 //MUX_41 mux(.A(res_int),.B(data_dat_i),.C(port_dat_i),.D(8'bx),.S(RegMux_c),.M(m2));
 
 
-FlipFlop ff(.clk(clk_i),.rst(rst_i),.clock_en(ClkEn_e),.cin(cf),.cout(ff_cout));
+//FlipFlop ff(.clk(clk_i),.rst(rst_i),.clock_en(ClkEn_e),.cin(cf),.cout(ff_cout));
+FlipFlop ff(.clk(clk_i),.rst(rst_i),.clock_en(ClkEn_e),.c_i(cf),.z_i(zf),.c_o(cf_o),.z_o(zf_o));
+
 
 
 // Straightforwars outputs 
@@ -114,9 +116,9 @@ always_comb offset_e = offstWire;
 
 always_comb rs_o = rs_alu;
 
-always_comb carry_e = cf;
+always_comb carry_e = cf_o;
 
-always_comb zero_e = zf;
+always_comb zero_e = zf_o;
 
 endmodule
 
