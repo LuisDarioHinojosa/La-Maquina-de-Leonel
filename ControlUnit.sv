@@ -42,7 +42,7 @@ parameter WRITEBACK_STATE = 3'b101;
 // OPCODE contitions
 logic branch,jump,misc,mem,alu_immed,alu_reg,shift;
 
-always_comb branch = (op_i[6:1] == 5'b111110);
+always_comb branch = (op_i[6:1] == 6'b111110);
 always_comb jump = (op_i[6:2] == 5'b11110);
 always_comb misc = (op_i == 7'b1111110);
 always_comb mem = (op_i[6:5] == 2'b10);
@@ -52,14 +52,22 @@ always_comb alu_reg = (op_i[6:3] == 4'b1110);
 
 // Particular operations 
 logic vait, stby,ldm,inp,out,stm;
+logic port_ack_i = 1'b1;
 
 
-always_comb vait = (func_i == 3'b100) & misc;
-always_comb stby = (func_i == 3'b101) & misc;
-always_comb ldm = (func_i == {2'b00,1'bx}) & mem;
-always_comb stm = (func_i == {2'b01,1'bx}) & mem;
-always_comb inp = (func_i == {2'b10,1'bx}) & mem;
-always_comb out = (func_i == {2'b11,1'bx}) & mem;
+
+always_comb vait = (func_i == 3'b100);
+always_comb stby = (func_i == 3'b101);
+always_comb ldm = (func_i[2:1] == 2'b00);
+always_comb stm = (func_i[2:1] == 2'b01);
+always_comb inp = (func_i[2:1] == 2'b10);
+always_comb out = (func_i[2:1] == 2'b11);
+/*
+always_comb ldm = (func_i == {2'b00,1'bx});
+always_comb stm = (func_i == {2'b01,1'bx});
+always_comb inp = (func_i == {2'b10,1'bx});
+always_comb out = (func_i == {2'b11,1'bx});
+*/
 
 // interruption
 logic inter;
@@ -87,28 +95,31 @@ always_comb
             DECODE_STATE    : 
                 begin
                     if(misc & (vait | stby) & !inter) NEXT <= DECODE_STATE;
-                    else if ((branch & !inter)|(jump & !inter)|(misc & !(vait | stby) & !inter)) NEXT <= FETCH_STATE;
+                    else if (((branch | jump) & !inter) |(misc & !(vait | stby) & !inter)) NEXT <= FETCH_STATE;
                     else if( alu_immed | alu_reg | shift | mem) NEXT <= EXECUTE_STATE;
                     else NEXT <=INT_STATE; 
                 end
 
-            EXECUTE_STATE   :
+
+            EXECUTE_STATE: // INT,FETCH,MEM,WRITEBACK
                 begin
-                    if((mem & stm & data_ack_i & !inter) | (mem & out & !inter)) NEXT <= FETCH_STATE; // mem & out & !inter & port_ack_i
-                    else if((mem & stm & data_ack_i & inter) | (mem & out & inter)) NEXT <= INT_STATE; //  mem & out & inter & port_ack_i
-                    else if ((mem & (ldm | stm) & ! data_ack_i)|(mem & (inp | out))) NEXT <= MEM_STATE; // (mem & (inp | out) & port_ack_i)
-                    else NEXT <= WRITEBACK_STATE;
+                    if( (mem & stm & data_ack_i & inter) | (mem & out & port_ack_i & inter) ) NEXT <= INT_STATE;
+                    else if (!mem | (mem & ldm & data_ack_i) |(mem & inp & port_ack_i) ) NEXT <= WRITEBACK_STATE;
+                    else if ( (mem & (ldm | stm) & !data_ack_i) | (mem & (inp | out) & !port_ack_i) ) NEXT <= MEM_STATE;
+                    else NEXT <= FETCH_STATE;
+                end
+
+            MEM_STATE: // WRITEBACK, FETCH, MEM, INT
+                begin
+                    if((stm & data_ack_i & !inter)|(out & port_ack_i & !inter)) NEXT <= FETCH_STATE;
+                    else if((stm & data_ack_i & inter)|(out & port_ack_i & inter)) NEXT <= INT_STATE;
+                    else if((ldm & data_ack_i)|(inp & port_ack_i)) NEXT <= WRITEBACK_STATE;
+                    else NEXT <= MEM_STATE;
                 end
 
             INT_STATE       : NEXT <= FETCH_STATE;
 
-            MEM_STATE       :
-                begin
-                    if((stm & data_ack_i & !inter)|(out & !inter))  NEXT <= FETCH_STATE; // out & port_ack_i &!inter
-                    else if((stm & data_ack_i & inter)|(out & inter))  NEXT <= INT_STATE; // out & port_ack_i & inter  
-                    else if((ldm & data_ack_i)|(inp))  NEXT <= WRITEBACK_STATE; // inp & port_ack_i
-                    else NEXT <= MEM_STATE;
-                end
+
 
             WRITEBACK_STATE : NEXT <= (inter) ? INT_STATE : FETCH_STATE;
         endcase
@@ -116,6 +127,19 @@ always_comb
 
 
 
+
+
+
+
+
+
+
+/*
+                    if() NEXT <= FETCH_STATE;
+                    else if() NEXT <= INT_STATE;
+                    else if() NEXT <= WRITEBACK_STATE;
+                    else NEXT <= MEM_STATE;
+*/
 
 
 
