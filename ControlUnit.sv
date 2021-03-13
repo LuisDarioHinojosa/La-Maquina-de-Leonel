@@ -15,7 +15,7 @@ module ControlUnit(
     output logic RegWrt_o, // reg 
     output logic [1:0] RegMux_c,
     output logic PCEN_o,
-    output logic [4:0] PCoper_o,
+    output logic [3:0] PCoper_o,
     output logic ret_o,
     output logic jbs_o,
     output logic DPMUX_o,
@@ -57,19 +57,19 @@ logic vait, stby,ldm,inp,out,stm;
 logic port_ack_i = 1'b1;
 
 
+// functions essential for state transitions
+always_comb vait = (func_i == 3'b100) & misc;
+always_comb stby = (func_i == 3'b101)&misc;
+always_comb ldm = (func_i[2:1] == 2'b00)&mem; // load memory operation
+always_comb stm = (func_i[2:1] == 2'b01)&mem; // store memory operation
+always_comb inp = (func_i[2:1] == 2'b10)&mem;
+always_comb out = (func_i[2:1] == 2'b11)&mem;
 
-always_comb vait = (func_i == 3'b100);
-always_comb stby = (func_i == 3'b101);
-always_comb ldm = (func_i[2:1] == 2'b00);
-always_comb stm = (func_i[2:1] == 2'b01);
-always_comb inp = (func_i[2:1] == 2'b10);
-always_comb out = (func_i[2:1] == 2'b11);
-/*
-always_comb ldm = (func_i == {2'b00,1'bx});
-always_comb stm = (func_i == {2'b01,1'bx});
-always_comb inp = (func_i == {2'b10,1'bx});
-always_comb out = (func_i == {2'b11,1'bx});
-*/
+
+// return from interripcion
+logic reti_rec;
+always_comb  reti_rec = (func_i == 3'b001) & misc;
+
 
 // interruption
 logic inter;
@@ -129,7 +129,7 @@ always_comb
 
 
 
-
+// ALU SELECTOR SET UP
 
 logic [3:0] aluSelector;
 
@@ -154,31 +154,62 @@ always_comb
                     2'b01 : aluSelector = 4'b1001;
                     2'b10 : aluSelector = 4'b1010;
                     2'b11 : aluSelector = 4'b1011;
-                    default: aluSelector = 4'b1000;
+                    default: aluSelector = 4'b0000;
                 endcase
             end
-        else aluSelector = 4'b0000;
+        else aluSelector = 4'b0000; // creo que aqui cubre que esta cosa tenga cero en el momento de operaciones de memoria para calcular la direccion
         
     end
 
 
 
+logic op2_selector;
+always_comb 
+    begin
+        if(alu_reg) op2_selector = 1; // solo uno cuando las cosas estas me prueba 
+        else  op2_selector = 0;
+    end
 
 
 
+// PRE ALU MUX SELECTOR SET UP
+
+logic [3:0] regMux_selector;
+    always_comb 
+	 begin 
+        if(alu_reg | alu_immed) regMux_selector = 4'b0000;
+        else if(mem) regMux_selector = 4'b0001;
+        else regMux_selector = 4'b0;
+    end
+
+
+// DP MUX
 /*
-                    if() NEXT <= FETCH_STATE;
-                    else if() NEXT <= INT_STATE;
-                    else if() NEXT <= WRITEBACK_STATE;
-                    else NEXT <= MEM_STATE;
+logic dpMux_selector;
+    always_comb begin 
+        if(mem) regMux_selector = 1;
+        else regMux_selector = 0;
+    end
 */
 
-assign ALUOp_o =  (DECODE_STATE | EXECUTE_STATE | WRITEBACK_STATE) ? aluSelector : 4'bxxxx;
+
+// outputs
+assign ALUOp_o =  ((STATE == DECODE_STATE)|(STATE == EXECUTE_STATE)|(STATE == WRITEBACK_STATE)) ? aluSelector : 4'b0000;
+assign op2_c = ((STATE == DECODE_STATE)|(STATE == EXECUTE_STATE)|(STATE == WRITEBACK_STATE)) ? op2_selector : 0;
+assign RegMux_c = ((STATE == DECODE_STATE)|(STATE == EXECUTE_STATE)|(STATE == WRITEBACK_STATE)) ? regMux_selector : 0;
+assign DPMUX_o = ( (   (STATE == DECODE_STATE)|(STATE == EXECUTE_STATE)|(STATE == WRITEBACK_STATE)|(STATE == MEM_STATE)  ) & mem ) ? 1:0;
 assign RegWrt_o = (STATE == WRITEBACK_STATE);
 assign int_ack_o = (STATE == INT_STATE);
 assign stb_o = (STATE == FETCH_STATE);
 assign cyc_o = (STATE == FETCH_STATE);
-
+assign PCEN_o = (STATE == FETCH_STATE);
+assign data_stb_o = (STATE == MEM_STATE); 
+assign data_cyc_o = (STATE === MEM_STATE); 
+assign data_we_o = ((STATE == MEM_STATE)&stm); // only in memory state whe you want to write en memory
+assign ALUFR_o = (((STATE == EXECUTE_STATE) | (STATE == WRITEBACK_STATE)) & !mem ); // this things dont have to active in memory instruccions
+assign ALUEN_o = (((STATE == EXECUTE_STATE) | (STATE == WRITEBACK_STATE)) & !mem ); //chanve hay que merer un coso aqui
+assign port_we_o = (((STATE == EXECUTE_STATE) | (STATE == MEM_STATE)) & out); // activate when out is receibes to enable data transmition
+assign reti_o = ((STATE == DECODE_STATE) & reti_rec); // activate if we receibe a in decode the return from interrup to restore program counter
 
 
 endmodule
