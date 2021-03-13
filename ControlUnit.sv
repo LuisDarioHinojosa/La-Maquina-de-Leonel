@@ -176,7 +176,7 @@ always_comb
 
 logic [3:0] regMux_selector;
     always_comb 
-	 begin 
+	begin 
         if(alu_reg | alu_immed) regMux_selector = 4'b0000;
         else if(mem) regMux_selector = 4'b0001;
         else regMux_selector = 4'b0;
@@ -191,6 +191,27 @@ logic dpMux_selector;
         else regMux_selector = 0;
     end
 */
+//  selector assign
+logic [3:0] pcOpper_selector;
+always_comb 
+    begin 
+        if(branch)
+            begin
+                case(func_i[2:1])
+                    2'b00 : PCoper_o = 4'b0100;
+                    2'b01 : PCoper_o = 4'b0101;
+                    2'b10 : PCoper_o = 4'b0110;
+                    2'b11 : PCoper_o = 4'b0111;
+                    default: PCoper_o = 4'b0000;
+                endcase
+            end
+        else if(jump) PCoper_o = 4'b1000;
+        else if(inter) PCoper_o = 4'b1100;
+        else if (reti_rec) PCoper_o = 4'b1011;
+        else PCoper_o = 4'b0000;
+    end
+
+
 
 
 // outputs
@@ -210,6 +231,11 @@ assign ALUFR_o = (((STATE == EXECUTE_STATE) | (STATE == WRITEBACK_STATE)) & !mem
 assign ALUEN_o = (((STATE == EXECUTE_STATE) | (STATE == WRITEBACK_STATE)) & !mem ); //chanve hay que merer un coso aqui
 assign port_we_o = (((STATE == EXECUTE_STATE) | (STATE == MEM_STATE)) & out); // activate when out is receibes to enable data transmition
 assign reti_o = ((STATE == DECODE_STATE) & reti_rec); // activate if we receibe a in decode the return from interrup to restore program counter
+assign int_o = ( (   (STATE == DECODE_STATE)|(STATE == EXECUTE_STATE)|(STATE == WRITEBACK_STATE)|(STATE == MEM_STATE)  ) & inter );
+assign ret_o = ((STATE == DECODE_STATE) & reti_rec);
+assign jbs_o = ((STATE == DECODE_STATE) & inter);
+
+
 
 
 endmodule
