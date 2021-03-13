@@ -1,3 +1,4 @@
+  
 module ControlUnit(
     input logic clk, // for clock signal 
     input logic rst, // upon reset transfer to fetch state
@@ -8,10 +9,10 @@ module ControlUnit(
     input logic data_ack_i,
 
     output logic op2_c, // sregister bank-alu mux selector
-    output logic ALUOp_o, // ALU SELECTOR
+    output logic [3:0] ALUOp_o, // ALU SELECTOR
     output logic ALUFR_o, // Para el write enable del nuevo registro
     output logic ALUEN_o, // Alu enable 
-    output logic RegWrt_c, // reg 
+    output logic RegWrt_o, // reg 
     output logic [1:0] RegMux_c,
     output logic PCEN_o,
     output logic [4:0] PCoper_o,
@@ -25,7 +26,8 @@ module ControlUnit(
     output logic port_we_o,
     output logic data_we_o,
     output logic data_stb_o,
-    output logic data_cyc_o
+    output logic data_cyc_o,
+    output logic int_ack_o
 
 );
 
@@ -131,6 +133,38 @@ always_comb
 
 
 
+logic [3:0] aluSelector;
+
+always_comb 
+    begin
+        if(alu_immed | alu_reg)
+            begin
+                case(func_i)
+                    3'b000 : aluSelector = 4'b0000;
+                    3'b001 : aluSelector = 4'b0001;
+                    3'b010 : aluSelector = 4'b0010;
+                    3'b101 : aluSelector = 4'b0101;
+                    3'b110 : aluSelector = 4'b0110;
+                    3'b111 : aluSelector = 4'b0111;
+                    default: aluSelector = 4'b0000;
+                endcase
+            end
+        else if(shift)
+            begin
+                case(func_i[1:0])
+                    2'b00 : aluSelector = 4'b1000;
+                    2'b01 : aluSelector = 4'b1001;
+                    2'b10 : aluSelector = 4'b1010;
+                    2'b11 : aluSelector = 4'b1011;
+                    default: aluSelector = 4'b1000;
+                endcase
+            end
+        else aluSelector = 4'b0000;
+        
+    end
+
+
+
 
 
 
@@ -141,7 +175,9 @@ always_comb
                     else NEXT <= MEM_STATE;
 */
 
-
+assign ALUOp_o =  (DECODE_STATE | EXECUTE_STATE | WRITEBACK_STATE) ? aluSelector : 4'bxxxx;
+assign RegWrt_o = (STATE == WRITEBACK_STATE);
+assign int_ack_o = (STATE == INT_STATE);
 
 
 endmodule
