@@ -21,8 +21,8 @@ module ControlUnit(
     output logic DPMUX_o,
     output logic reti_o,
     output logic int_o,
-    output logic stb_o,
-    output logic cyc_o,
+    output logic stb_o, // generate aknowledge so IR saves instruction
+    output logic cyc_o, // generate aknowledge so IR stuff saves instruction
     output logic port_we_o,
     output logic data_we_o,
     output logic data_stb_o,
@@ -121,8 +121,6 @@ always_comb
 
             INT_STATE       : NEXT <= FETCH_STATE;
 
-
-
             WRITEBACK_STATE : NEXT <= (inter) ? INT_STATE : FETCH_STATE;
         endcase
     end
@@ -178,6 +176,9 @@ always_comb
 assign ALUOp_o =  (DECODE_STATE | EXECUTE_STATE | WRITEBACK_STATE) ? aluSelector : 4'bxxxx;
 assign RegWrt_o = (STATE == WRITEBACK_STATE);
 assign int_ack_o = (STATE == INT_STATE);
+assign stb_o = (STATE == FETCH_STATE);
+assign cyc_o = (STATE == FETCH_STATE);
+
 
 
 endmodule
