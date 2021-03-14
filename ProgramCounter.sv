@@ -55,8 +55,8 @@ module ProgramCounter(
     input logic clk,
     input logic rst,
     input logic we,
-	 input logic   cen, // clock enable
-	 input logic  [11:0] PC_i,
+	input logic   cen, // clock enable
+	input logic  [11:0] PC_i,
     output logic [11:0] PC_o
     );
 

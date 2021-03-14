@@ -33,7 +33,7 @@ always_ff @( posedge clk )
 
 // this are te inmediate outputs
 always_comb op_o =     data_backup[17:11];
-always_comb func_o =   data_backup[17] ? data_backup[2:0] : data_backup[16:14];
+//always_comb func_o =   data_backup[17] ? data_backup[2:0] : data_backup[16:14];
 always_comb addr_o =   data_backup[11:0];
 always_comb disp_o =   data_backup[7:0];
 always_comb offset_o = data_backup [7:0];
@@ -44,22 +44,19 @@ always_comb immed_o =  data_backup[7:0];
 always_comb count_o =  data_backup [7:5];
 
 // combinational assigments for function code
-/*
+
 always_comb 
     begin
         if(data_backup[17:14] == 4'b1110) func_o =  data_backup[2:0]; // ALU
         else if(!data_backup[17]) func_o = data_backup[16:14]; // ALU-IMMED
-        else if(data_backup[17:15] == 3'b110) func_o = {1'bx,data_backup[1:0]} ; // SHIFT
-        else if (data_backup[17:16] == 2'b10) func_o = {data_backup[15:14],1'bx}; // memory instructions 
+        else if(data_backup[17:15] == 3'b110) func_o = data_backup[2:0]; // SHIFT
+        else if (data_backup[17:16] == 2'b10) func_o = data_backup[15:13]; // memory instructions 
 
-        else if (data_backup[17:12] ==6'b111110) func_o = {data_backup[10:11],1'bx}; // branch 
-        else if (data_backup[17:13] ==  5'b11110) func_o = {data_backup[12],2'bx}; // jump
-        //else if (data_backup[17:11] == 7'b1111110) 
+        else if (data_backup[17:12] ==6'b111110) func_o = data_backup[11:9]; // branch 
+        else if (data_backup[17:13] ==  5'b11110) func_o = data_backup[12:10]; // jump
         else func_o = data_backup[10:8]; // miscelaneo
     end
 
-	 
-*/
 /*
 always_comb branch = (op_i[6:1] == 7'b111110);
 always_comb jump = (op_i[6:2] == 5'b11110);
