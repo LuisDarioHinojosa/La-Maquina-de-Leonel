@@ -38,12 +38,8 @@ module CONTROL_UNIT_TB();
 
     
 
-    ControlUnit drenaAlmas(
-        /*
-        En memoria de los ingenieros que dieron su alma y su sanidad mental
-        para aplacar al falso profeta Jesus Palomino y su secta de silicio para 
-        que no los olvidemos... F
-        */
+    ControlUnit fsm(
+
         .clk(clk),  
         .rst(rst), 
         .int_req(int_req), 
