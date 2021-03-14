@@ -41,7 +41,8 @@ module CONTROL_UNIT_TB();
     ControlUnit drenaAlmas(
         /*
         En memoria de los ingenieros que dieron su alma y su sanidad mental
-        para aplacar a palomino y la secta de silicio para que no los olvidemos... F
+        para aplacar al falso profeta Jesus Palomino y su secta de silicio para 
+        que no los olvidemos... F
         */
         .clk(clk),  
         .rst(rst), 
@@ -108,10 +109,17 @@ module CONTROL_UNIT_TB();
 
 	initial begin
         Initialvalues();
+        
         rst = 1;
         inst_ack_i = 1;
         #20;
         rst = 0;
+
+
+
+
+
+
         // airtmeticas y logicas
         #20;
         op_i = 7'b1110000; 
@@ -223,6 +231,17 @@ module CONTROL_UNIT_TB();
 
 
 
+
+
+
+
+
+
+
+
+
+
+
         // funciones de shift creo
 
         #20;
@@ -230,7 +249,7 @@ module CONTROL_UNIT_TB();
         func_i = 3'b000;
 
         #20;
-        op_i = 7'b11000000; 
+        op_i = 7'b1100000; 
         func_i = 3'b001; 
 
 
@@ -254,7 +273,7 @@ module CONTROL_UNIT_TB();
         func_i = 3'b000;
 
         #20;
-        op_i = 7'b10000000; 
+        op_i = 7'b1000000; 
         func_i = 3'b001; 
 
 
@@ -271,21 +290,21 @@ module CONTROL_UNIT_TB();
 
 
         #20;
-        op_i = 7'b1111110; 
+        op_i = 7'b1111100; 
         func_i = 3'b000;
 
         #20;
-        op_i = 7'b1111110; 
+        op_i = 7'b1111100; 
         func_i = 3'b010; 
 
 
 
         #20;
-        op_i = 7'b1111110; 
+        op_i = 7'b1111100; 
         func_i = 3'b100;
 
         #20;
-        op_i = 7'b1111110; 
+        op_i = 7'b1111100; 
         func_i = 3'b110; 
 
 

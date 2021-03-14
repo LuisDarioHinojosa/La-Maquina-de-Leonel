@@ -65,7 +65,6 @@ always_comb stm = (func_i[2:1] == 2'b01)&mem; // store memory operation
 always_comb inp = (func_i[2:1] == 2'b10)&mem;
 always_comb out = (func_i[2:1] == 2'b11)&mem;
 
-
 // return from interripcion
 logic reti_rec;
 always_comb  reti_rec = (func_i == 3'b001) & misc;
@@ -116,7 +115,8 @@ always_comb
                     if((stm & data_ack_i & !inter)|(out & port_ack_i & !inter)) NEXT <= FETCH_STATE;
                     else if((stm & data_ack_i & inter)|(out & port_ack_i & inter)) NEXT <= INT_STATE;
                     else if((ldm & data_ack_i)|(inp & port_ack_i)) NEXT <= WRITEBACK_STATE;
-                    else NEXT <= MEM_STATE;
+                    else if (((ldm | stm) & !data_ack_i)|((inp|out) & !port_ack_i)) NEXT <= MEM_STATE;
+                    else NEXT <= FETCH_STATE;
                 end
 
             INT_STATE       : NEXT <= FETCH_STATE;
