@@ -234,7 +234,7 @@ assign reti_o = ((STATE == DECODE_STATE) & reti_rec); // activate if we receibe 
 assign int_o = ( (   (STATE == DECODE_STATE)|(STATE == EXECUTE_STATE)|(STATE == WRITEBACK_STATE)|(STATE == MEM_STATE)  ) & inter );
 assign ret_o = ((STATE == DECODE_STATE) & reti_rec);
 assign jbs_o = ((STATE == DECODE_STATE) & inter);
-
+assign inst_ack_o = inst_ack_i;
 
 
 
