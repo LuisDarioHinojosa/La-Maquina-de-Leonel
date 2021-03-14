@@ -1,17 +1,17 @@
-module data_mem ( input  clk_i,
-         	  input  cyc_i,
-         	  input  stb_i,
-         	  input  we_i,
-         	  output ack_o,
-         	  input      [7:0] adr_i,
-         	  input      [7:0] dat_i,
-         	  output reg [7:0] dat_o );
+module DataMemory ( input  clk_i,
+        input  cyc_i,
+        input  stb_i,
+        input  we_i,
+        output ack_o,
+        input      [7:0] adr_i,
+        input      [7:0] dat_i,
+        output reg [7:0] dat_o );
 
   reg [7:0] DMem [0:255];
 
   reg read_ack;
 
-  initial $readmemh("gasm_data.dat", DMem);
+  //initial $readmemh("gasm_data.dat", DMem);
 
   always @(posedge clk_i)
     if (cyc_i && stb_i)

@@ -36,8 +36,8 @@ module ABAJO_UNIT(
     output logic carry_e, // the borrow logic will be handled insside the ALU
     output logic zero_e,
     output logic [7:0] port_data_o, // para los registros
-    output logic [7:0] port_addr_o  // para la salida de la ALU
-
+    output logic [7:0] port_addr_o,  // para la salida de la ALU
+    output logic [7:0] aluRes
 
 
 
@@ -167,9 +167,13 @@ always_comb disp_e = dispWire;
 
 always_comb offset_e = offstWire;
 
-always_comb rs_o = rs_alu;
+always_comb rs_o = rs2_alu;
 
 always_comb carry_e = ccC_e;
+
+always_comb aluRes = res_int;
+
+
 
 //always_comb zero_e = zf;
 
