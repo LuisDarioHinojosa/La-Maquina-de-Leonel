@@ -1,4 +1,4 @@
-
+/*
 module ABAJO_UNIT(
     input logic clk_i,
     input logic rst_i,
@@ -111,7 +111,7 @@ always_comb zero_e = zf_o;
 
 endmodule
 
-/*
+*/
 
 
 
@@ -127,7 +127,7 @@ module ABAJO_UNIT(
     input logic [17:0] inst_dat_i, // this is the 18 bit data bus
     input logic inst_ack_i, // this is the register enable
     input logic op2_c, // REGISTERS-ALU INTERMEDIANTE MUX SELECTOR
-    input logic [3:0]ALUOp_c,
+    input logic [3:0]ALUOp_c, // selector de la alu
 
     output logic [2:0] op_e, // operation code
     //output logic [6:0] op_e, // segun leonel esto es de 7 bits
@@ -138,7 +138,6 @@ module ABAJO_UNIT(
     output logic [7:0]rs_o, // rs_i de DATEMEM
     output logic carry_e, // the borrow logic will be handled insside the ALU
     output logic zero_e
-    //output logic rd_0 // OUTPUT PARA AFUERA 
 );
 
 
@@ -227,4 +226,3 @@ always_comb zero_e = zf;
 
 endmodule
 
-*/
