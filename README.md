@@ -12,3 +12,6 @@ Este es un mapa de transiciones de la control unit
 ![es esto](./fsm.png)
 La logica detras del opcode de Leonel (segun yo) y algunas de nuestras disertaciones con respecto al diseño.
 ![es esto](./logica.png)
+
+# Al final se llego a algo asi:
+![es esto](./LeonelMachine.png)
