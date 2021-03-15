@@ -7,6 +7,7 @@ module ControlUnit(
     input logic [6:0] op_i, // opcode
     input logic [2:0] func_i, // function
     input logic data_ack_i,
+    input logic port_ack_i,
 
     output logic op2_c, // sregister bank-alu mux selector
     output logic [3:0] ALUOp_o, // ALU SELECTOR
@@ -54,7 +55,7 @@ always_comb alu_reg = (op_i[6:3] == 4'b1110);
 
 // Particular operations 
 logic vait, stby,ldm,inp,out,stm;
-logic port_ack_i = 1'b1;
+//logic port_ack_i = 1'b1;
 
 
 // functions essential for state transitions

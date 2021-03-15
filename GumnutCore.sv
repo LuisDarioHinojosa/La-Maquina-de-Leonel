@@ -8,9 +8,7 @@ module GumnutCore(
 
     output logic int_ack,
     output logic [7:0] port_adr_o,
-    output logic port_cyc_o,
     output logic [7:0 ]port_dat_o,
-    output logic port_stb_o,
     output logic port_we_o
 
 );
@@ -65,7 +63,7 @@ logic [11:0] PCint_w;
 
 
 
-ControlUnit controlUnit (.clk(clk),.rst(rst),.int_req(int_req),.inst_ack_i(ack_w),.stb_o(inst_stb_w),.cyc_o(inst_cyc_w),.data_we_o(date_we_w),.data_stb_o(data_stb_w),.data_cyc_o(data_cyc_w),.data_ack_i(data_ack_w),.int_ack_o(int_ack),.port_we_o(port_we_w),.op2_c(op2_w),.ALUOp_o(ALUOp_w),.ALUFR_o(ALUFR_w),.ALUEN_o(ALU_En_w),.RegWrt_o(RegWrt_w),.RegMux_c(RegMux_w),.PCEN_o(PCEn_w),.PCoper_o(PCopper_w),.ret_o(ret_w),.jbs_o(jbs_w),.DPMUX_o(DPMux_w),.reti_o(reti_w),.int_o(int_w));
+ControlUnit controlUnit (.clk(clk),.rst(rst),.int_req(int_req),.inst_ack_i(ack_w),.stb_o(inst_stb_w),.cyc_o(inst_cyc_w),.data_we_o(date_we_w),.data_stb_o(data_stb_w),.data_cyc_o(data_cyc_w),.data_ack_i(data_ack_w),.port_ack_i(port_ack_i),.int_ack_o(int_ack),.port_we_o(port_we_w),.op2_c(op2_w),.ALUOp_o(ALUOp_w),.ALUFR_o(ALUFR_w),.ALUEN_o(ALU_En_w),.RegWrt_o(RegWrt_w),.RegMux_c(RegMux_w),.PCEN_o(PCEn_w),.PCoper_o(PCopper_w),.ret_o(ret_w),.jbs_o(jbs_w),.DPMUX_o(DPMux_w),.reti_o(reti_w),.int_o(int_w));
 
 ProgramCounter programCounter(.PC_o(inst_addr_w),.PC_i(updated_PC_w),.clk(clk),.rst(rst),.we(PCEn_w),.cen(clkEn_i));
 

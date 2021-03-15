@@ -33,13 +33,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	ALUA
 
-} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/ControlUnit.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/ControlUnit.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module ControlUnit
-
-Top level modules:
-	ControlUnit
-
 } {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/ALU_GUMNUT.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/ALU_GUMNUT.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module ALU_GUMNUT
@@ -109,6 +102,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 
 Top level modules:
 	MUX_41
+
+} {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/NEW_PC_TB.sv {1 {vlog -work work -sv -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/NEW_PC_TB.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module NEW_PC_TB
+
+Top level modules:
+	NEW_PC_TB
 
 } {} {}} C:/intelFPGA_lite/18.1/Leonel/Gummut/ALUL.v {1 {vlog -work work -stats=none C:/intelFPGA_lite/18.1/Leonel/Gummut/ALUL.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
