@@ -15,3 +15,6 @@ La logica detras del opcode de Leonel (segun yo) y algunas de nuestras disertaci
 
 # Al final se llego a algo asi:
 ![es esto](./LeonelMachine.png)
+
+# Elon MUX:
+![es esto](./ElonMux.png)
